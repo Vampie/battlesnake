@@ -129,8 +129,8 @@ class SnakeBrain(object):
     def is_blocked(self, direction):
         return self.board.is_blocked(self.my_head(board), direction)
 
-    def board_height(self)
+    def board_height(self):
         return self.board.board_height
 
-    def board_width(self)
+    def board_width(self):
         return self.board.board_width

@@ -32,7 +32,7 @@ class Battlesnake(object):
         # This function is called everytime your snake is entered into a game.
         # cherrypy.request.json contains information about the game that's about to be played.
         # TODO: Use this function to decide how your snake is going to look on the board.
-        self.snake = Soetkin('up')
+        # self.snake = Soetkin('up')
         return "ok"
 
     @cherrypy.expose
