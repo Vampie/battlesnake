@@ -40,6 +40,7 @@ class SnakeBrain(object):
         return direction.value
 
     def calculate_next_move(self):
+        self.board.print_board()
         directions = {}
         for dir in self.possible_directions:
             directions[dir] = self.get_value(dir)
@@ -65,9 +66,6 @@ class SnakeBrain(object):
                 return 1
         else:
             return 4 - len(self.board.neighbours(cell))
-
-    def count_neigbour_snakes(cell):
-      self.neu
 
     def hungry(self):
         return self.health < 40

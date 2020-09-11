@@ -1,4 +1,5 @@
 from enum import Enum
+from debug import Debug
 
 
 class Board(object):
@@ -10,6 +11,16 @@ class Board(object):
 
     def __str__(self):
         return 'Bord'
+
+    def init_board(self):
+        n = self.data['board']['height']
+        m = self.data['board']['width']
+        self.board_width = m
+        self.board_height = n
+        self.board = [[Cell(i, j) for i in range(m)] for j in range(n)]
+        self.set_foods()
+        self.set_snakes()
+
 
     def set_foods(self):
         foods = self.data['board']['food']
@@ -44,18 +55,9 @@ class Board(object):
         for p in snake.snakeParts:
             self.board[p.x][p.y] = p
 
-    def init_board(self):
-        n = self.data['board']['height']
-        m = self.data['board']['width']
-        self.board_width = m
-        self.board_height = n
-        self.board = [[Cell(i, j) for i in range(m)] for j in range(n)]
-        self.set_foods()
-        self.set_snakes()
-
     def potential_next_moves(self, snake):
         head = snake.snakeParts[0]
-        print(head)
+        Debug.log_with_action(head.position_string(), 'Head + potential moves')
         potential_cells = []
         c = self.neighbour_left(head)
         if c is not None:
@@ -70,7 +72,7 @@ class Board(object):
         if c is not None:
             potential_cells.append(PotentialSnakePart(c.x, c.y))
         for i in potential_cells:
-          print(i)
+          Debug.log(i.position_string())
         return potential_cells
 
     def neighbour (self, cell, direction):
@@ -84,6 +86,7 @@ class Board(object):
         return self.neighbour_left(cell)
 
     def neighbours(self, cell):
+        Debug.log_with_action(cell.position_string(), 'Cell + neighbours')
         neighbours = []
         c = self.neighbour_left(cell)
         if c is not None:
@@ -97,12 +100,13 @@ class Board(object):
         c = self.neighbour_down(cell)
         if c is not None:
           neighbours.append(c)
+        for i in neighbours:
+          Debug.log(i.position_string())
         return neighbours
 
 
-
     def neighbour_right(self, cell):
-        if cell.x == self.board_width:
+        if cell.x == self.board_width -1:
             return None
         else:
             return self.cell_at(cell.x + 1, cell.y)
@@ -114,7 +118,7 @@ class Board(object):
             return self.cell_at(cell.x - 1, cell.y)
 
     def neighbour_up(self, cell):
-        if cell.y == self.board_height:
+        if cell.y == self.board_height -1:
             return None
         else:
             return self.cell_at(cell.x, cell.y + 1)
@@ -137,7 +141,7 @@ class Board(object):
 
     def cells_in_direction_left(self, cell):
         cells = []
-        for i in reversed(range(0, cell.x - 1)):
+        for i in reversed(range(0, cell.x)):
             cells.append(self.cell_at(i, cell.y))
         return cells
 
@@ -155,7 +159,7 @@ class Board(object):
 
     def cells_in_direction_down(self, cell):
         cells = []
-        for i in reversed(range(0, cell.y - 1)):
+        for i in reversed(range(0, cell.y)):
             cells.append(self.cell_at(cell.x, i))
         return cells
 
@@ -195,6 +199,9 @@ class Board(object):
         return self.board[x][y]
 
     def is_blocked(self, cell, direction):
+        if self.number_of_free_cells(cell, direction) == 0:
+          return True
+          
         if direction == Direction.up:
             return self.is_blocked_up(cell)
         elif direction == Direction.right:
