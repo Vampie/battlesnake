@@ -3,7 +3,7 @@ from snake import SnakeBrain
 class Soetkin(SnakeBrain):
   
   def hungry(self):
-    return self.health < 20
+    return self.health < 25
 
   def calculate_next_move(self, board):
       # for each direction calculate
