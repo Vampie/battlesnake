@@ -46,9 +46,8 @@ class Battlesnake(object):
 
         # Choose a random direction to move in
         board = Board(data)
-        snake = Soetkin('up', board)
-        snake.updateStatus(data)
-        move = snake.move(board)
+        snake = Soetkin(data, board)
+        move = snake.move()
 
         print(f"MOVE: {move}")
         return {"move": move}
