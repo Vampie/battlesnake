@@ -15,7 +15,7 @@ class Soetkin(SnakeBrain):
       return self.move_towards(new_dir)
 
   def get_value(self, direction):
-    if self.is_blocked(board, direction):
+    if self.is_blocked(direction):
       return -1000
     head = self.board.cell_at(self.snake_x, self.snake_y)
     val = self.board.number_of_free_cells(head, direction)

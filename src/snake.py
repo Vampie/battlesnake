@@ -123,11 +123,11 @@ class SnakeBrain(object):
             count = count + self.value_for_cell(cell)
         return count
 
-    def my_head(self, direction):
+    def my_head(self):
         return self.board.cell_at(self.snake_x, self.snake_y)
 
     def is_blocked(self, direction):
-        return self.board.is_blocked(self.my_head(board), direction)
+        return self.board.is_blocked(self.my_head(), direction)
 
     def board_height(self):
         return self.board.board_height
