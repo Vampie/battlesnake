@@ -13,6 +13,7 @@ class Board(object):
         return 'Bord'
 
     def init_board(self):
+        self.my_snake_id = self.data['you']['id']
         n = self.data['board']['height']
         m = self.data['board']['width']
         self.board_width = m
@@ -40,10 +41,11 @@ class Board(object):
 
         for snake in self.snakes:
             for c in self.potential_next_moves(snake):
-                (self.board[c.x][c.y]).can_be_occupied_in_next_round = True
+                if not (snake.id == self.my_snake_id):
+                  (self.board[c.x][c.y]).can_be_occupied_in_next_round = True
 
     def parse_snake(self, snake_data):
-        snake = Snake()
+        snake = Snake(snake_data['id'])
         for b in (snake_data['body'])[:-1]:
             snake.add_snakePart(SnakePart(b['x'], b['y']))
         tail = SnakeTail(snake_data['body'][-1]['x'],
@@ -245,8 +247,9 @@ class Board(object):
 
 
 class Snake():
-    def __init__(self):
+    def __init__(self, id):
         self.snakeParts = []
+        self.id = id
 
     def add_snakePart(self, sp):
         self.snakeParts.append(sp)
@@ -271,6 +274,8 @@ class Cell(object):
         return True
 
     def shortString(self):
+        if self.can_be_occupied_in_next_round:
+          return '?'
         return ' '
 
     def position_string(self):

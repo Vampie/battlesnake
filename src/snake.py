@@ -71,6 +71,8 @@ class SnakeBrain(object):
         return self.health < 40
 
     def get_value(self, direction):
+        if self.is_blocked(direction):
+            return -1000
         if direction == Direction.up:
             return self.value_up()
         elif direction == Direction.right:
@@ -81,8 +83,6 @@ class SnakeBrain(object):
             return self.value_left()
 
     def value_up(self):
-        if self.is_blocked(Direction.up):
-            return -1000
         count = 0
         for y in range(self.snake_y + 1, self.board_height()):
             cell = self.board.cell_at(self.snake_x, y)
@@ -92,8 +92,6 @@ class SnakeBrain(object):
         return count
 
     def value_down(self):
-        if self.is_blocked(Direction.down):
-            return -1000
         count = 0
         for y in reversed(range(self.snake_y)):
             cell = self.board.cell_at(self.snake_x, y)
@@ -103,8 +101,6 @@ class SnakeBrain(object):
         return count
 
     def value_right(self):
-        if self.is_blocked(Direction.right):
-            return -1000
         count = 0
         for x in range(self.snake_x + 1, self.board_width()):
             cell = self.board.cell_at(x, self.snake_y)
@@ -114,8 +110,6 @@ class SnakeBrain(object):
         return count
 
     def value_left(self):
-        if self.is_blocked(Direction.left):
-            return -1000
         count = 0
         for x in reversed(range(self.snake_x)):
             cell = self.board.cell_at(x, self.snake_y)
