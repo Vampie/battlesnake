@@ -3,7 +3,7 @@ from snake import SnakeBrain
 class Soetkin(SnakeBrain):
   
   def hungry(self):
-    return self.health < 25
+    return self.health < 50
 
   def calculate_next_move(self):
       # for each direction calculate
@@ -19,8 +19,10 @@ class Soetkin(SnakeBrain):
       return -1000
     head = self.board.cell_at(self.snake_x, self.snake_y)
     val = self.board.number_of_free_cells(head, direction)
-    if (self.board.cells_in_direction(head, direction).can_be_occupied_in_next_round):
-      val = val - 20
+    neighbour = self.board.neighbour(head, direction)
+    if neighbour is not None:
+      if neighbour.can_be_occupied_in_next_round:
+        val = val - 20
     # print("## get value ##")
     # print(str(self.snake_x) + ", " + str(self.snake_y))
     # print(str(head.x) + ", " + str(head.y))

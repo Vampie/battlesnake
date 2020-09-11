@@ -55,6 +55,7 @@ class Board(object):
 
     def potential_next_moves(self, snake):
         head = snake.snakeParts[0]
+        print(head)
         potential_cells = []
         c = self.neighbour_left(head)
         if c is not None:
@@ -68,7 +69,37 @@ class Board(object):
         c = self.neighbour_down(head)
         if c is not None:
             potential_cells.append(PotentialSnakePart(c.x, c.y))
+        for i in potential_cells:
+          print(i)
         return potential_cells
+
+    def neighbour (self, cell, direction):
+      if direction == Direction.up:
+        return self.neighbour_up(cell)
+      elif direction == Direction.right:
+        return self.neighbour_right(cell)
+      elif direction == Direction.down:
+        return self.neighbour_down(cell)
+      elif direction == Direction.left:
+        return self.neighbour_left(cell)
+
+    def neighbours(self, cell):
+        neighbours = []
+        c = self.neighbour_left(cell)
+        if c is not None:
+          neighbours.append(c)
+        c = self.neighbour_right(cell)
+        if c is not None:
+          neighbours.append(c)
+        c = self.neighbour_up(cell)
+        if c is not None:
+          neighbours.append(c)
+        c = self.neighbour_down(cell)
+        if c is not None:
+          neighbours.append(c)
+        return neighbours
+
+
 
     def neighbour_right(self, cell):
         if cell.x == self.board_width:
@@ -83,7 +114,6 @@ class Board(object):
             return self.cell_at(cell.x - 1, cell.y)
 
     def neighbour_up(self, cell):
-        print(cell.position_string())
         if cell.y == self.board_height:
             return None
         else:

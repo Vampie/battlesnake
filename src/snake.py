@@ -64,7 +64,10 @@ class SnakeBrain(object):
             else:
                 return 1
         else:
-            return 4 - self.board.count_neigbour_snakes(cell)
+            return 4 - len(self.board.neighbours(cell))
+
+    def count_neigbour_snakes(cell):
+      self.neu
 
     def hungry(self):
         return self.health < 40
@@ -80,44 +83,44 @@ class SnakeBrain(object):
             return self.value_left()
 
     def value_up(self):
-        if self.up_is_blocked():
+        if self.is_blocked(Direction.up):
             return -1000
         count = 0
         for y in range(self.snake_y + 1, self.board_height()):
-            cell = board.cellAt(self.snake_x, y)
+            cell = self.board.cell_at(self.snake_x, y)
             if cell.is_snake():
                 return count
             count = count + self.value_for_cell(cell)
         return count
 
-    def value_down(self, board):
-        if self.down_is_blocked():
+    def value_down(self):
+        if self.is_blocked(Direction.down):
             return -1000
         count = 0
         for y in reversed(range(self.snake_y)):
-            cell = board.cellAt(self.snake_x, y)
+            cell = self.board.cell_at(self.snake_x, y)
             if cell.is_snake():
                 return count
             count = count + self.value_for_cell(cell)
         return count
 
-    def value_right(self, board):
-        if self.right_is_blocked():
+    def value_right(self):
+        if self.is_blocked(Direction.right):
             return -1000
         count = 0
         for x in range(self.snake_x + 1, self.board_width()):
-            cell = board.cellAt(x, self.snake_y)
+            cell = self.board.cell_at(x, self.snake_y)
             if cell.is_snake():
                 return count
             count = count + self.value_for_cell(cell)
         return count
 
     def value_left(self):
-        if self.left_is_blocked():
+        if self.is_blocked(Direction.left):
             return -1000
         count = 0
         for x in reversed(range(self.snake_x)):
-            cell = board.cellAt(x, self.snake_y)
+            cell = self.board.cell_at(x, self.snake_y)
             if cell.is_snake():
                 return count
             count = count + self.value_for_cell(cell)
