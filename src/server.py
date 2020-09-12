@@ -1,10 +1,10 @@
 import os
 import cherrypy
 
-from snake import SnakeBrain
+# from snake import SnakeBrain
 from board import Board
 from soetkin import Soetkin
-from pelle import Pelle
+# from pelle import Pelle
 
 """
 This is a simple Battlesnake server written in Python.
@@ -47,7 +47,7 @@ class Battlesnake(object):
 
         # Choose a random direction to move in
         board = Board(data)
-        snake = Pelle(data, board)
+        snake = Soetkin(data, board)
         move = snake.move()
 
         print(f"MOVE: {move}")
